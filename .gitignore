@@ -8,5 +8,5 @@
 !*.hpp
 !*makefile
 !*Makefile
-!.py
+!*.py
 
