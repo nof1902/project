@@ -1,0 +1,15 @@
+*
+
+!*.c
+!*.cpp
+!*.md
+!*.gitignore
+!*/
+!*.h
+!*.hpp
+!*makefile
+!*Makefile
+!*.mak
+!*.d
+!*.json
+
