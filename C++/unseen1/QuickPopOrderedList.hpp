@@ -28,6 +28,7 @@ public:
     bool IsEmpty();
     T Pop();
     void Push(T *value);
+    void PrintList();
 
 private:
     QuickPopOrderedList(const QuickPopOrderedList<T> &other); // no copy constructor
@@ -36,7 +37,8 @@ private:
     Function<bool(T,T)> &m_comperfunc;
     Node<T> *m_head;
     size_t m_size;
-    pthread_mutex_t m_mutex;
+    pthread_mutex_t m_guard;
+    pthread_mutex_t m_guard2;
 };
 
 /* *******************************Node*************************************** */
@@ -73,7 +75,8 @@ template<typename T>
 QuickPopOrderedList<T>::QuickPopOrderedList(Function<bool(T,T)> &comperfunc): 
 m_comperfunc(comperfunc), m_head(NULL) ,m_size(0)
 {
-    pthread_mutex_init(&m_mutex,NULL);
+    pthread_mutex_init(&m_guard,NULL);
+    pthread_mutex_init(&m_guard2,NULL);
 }
 
 template<typename T>
@@ -85,41 +88,44 @@ QuickPopOrderedList<T>::~QuickPopOrderedList()
         m_head = m_head->GetNextNode();
         delete node;
     }
-    pthread_mutex_destroy(&m_mutex);
+    pthread_mutex_destroy(&m_guard);
 }
 
 template<typename T>
 T QuickPopOrderedList<T>::Pop()
 {
-    pthread_mutex_lock(&m_mutex);
+    pthread_mutex_lock(&m_guard);
+    // if(IsEmpty())
+    // {
+    //     pthread_mutex_unlock(&m_guard);
+    //     return -1;
+    // }
     Node<T> *node_to_erase = m_head;
     m_head = m_head->GetNextNode();
     int ret_val = node_to_erase->GetValue();
     delete node_to_erase;
     --m_size;
-    pthread_mutex_unlock(&m_mutex);
+    pthread_mutex_unlock(&m_guard);
     return ret_val;
 }
 
 template<typename T>
 void QuickPopOrderedList<T>::Push(T *value)
 {
-    pthread_mutex_lock(&m_mutex);
     Node<T> *new_node = new Node<T>(value);
-    
+    pthread_mutex_lock(&m_guard);
     if(m_head == NULL || 
             true == (m_comperfunc)(new_node->GetValue(), m_head->GetValue()))
     {
         new_node->SetNextNode(m_head);
         m_head = new_node;
     }
-
     else
     {
         InsertRigthPlace(new_node);
     }
     ++m_size;
-    pthread_mutex_unlock(&m_mutex);
+    pthread_mutex_unlock(&m_guard);
 }
 
 template<typename T>
@@ -131,6 +137,7 @@ size_t QuickPopOrderedList<T>::GetSize()
 template<typename T>
 bool QuickPopOrderedList<T>::IsEmpty()
 {
+    //return !__atomic_load_n(&m_size,__ATOMIC_SEQ_CST);
     return m_size == 0;
 }
 
@@ -158,7 +165,17 @@ void QuickPopOrderedList<T>::InsertRigthPlace(Node<T> *new_node)
         new_node->SetNextNode(curr);
         prev->SetNextNode(new_node);
     }
+}
 
+template<typename T>
+void QuickPopOrderedList<T>::PrintList()
+{
+    Node<T> *curr = m_head;
+    while(curr)
+    {
+        std::cout << curr->GetValue() << std::endl;
+        curr = curr->GetNextNode();
+    }
 }
 
 /* 
