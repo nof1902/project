@@ -47,8 +47,10 @@ int main(int argc, char **argv)
     thread2.join();
     thread3.join();
 
-    std::thread write_thread(Write_file, "F4.txt",sort_dir,split);
+    std::thread write_thread(Write_file, "F4.txt");
     write_thread.join();
+
+    Sort_file("F4.txt",sort_dir,split);
 
     std::string most_common_word("");
     int count = Find_most_common_word(most_common_word);

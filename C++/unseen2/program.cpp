@@ -65,8 +65,7 @@ void Read_file(const std::string& file_name)
     }
 }
 
-void Write_file(const std::string& file_name,const std::string& sort_dir,
-                const std::string& split) 
+void Write_file(const std::string& file_name) 
 {
     std::ofstream file(file_name); //Stream class to writh on files
     if(file.is_open()) 
@@ -88,7 +87,6 @@ void Write_file(const std::string& file_name,const std::string& sort_dir,
             {
                 FixWord(word);
                 file << word << std::endl;
-                Sort_file(file_name,sort_dir,split);
             }
 
             else 
