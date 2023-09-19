@@ -14,10 +14,6 @@ app.config['SQLALCHEMY_DATABASE_URI'] = environ.get('DB_URL')
 #app.config['SQLALCHEMY_DATABASE_URI'] = postgresql://postgres:postgres@localhost:5432/postgres
 db = SQLAlchemy(app)
 
-#initialize database
-#with app.app_context():
- #      db.create_all()
-
 #create the database & the table
 class Patient(db.Model):
     __tablename__ = 'patients'
@@ -37,6 +33,7 @@ class Patient(db.Model):
             'phone': self.phone
             }
 
+#initialize database
 db.create_all()
 
 @app.route('/test', methods=['GET'])
