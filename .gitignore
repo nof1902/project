@@ -9,7 +9,7 @@
 !*makefile
 !*Makefile
 !*.py
-!*yml
+!*.yml
 !*Dockerfile
 !*README
 
