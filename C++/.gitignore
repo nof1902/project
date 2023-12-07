@@ -1,8 +1,10 @@
 *
+# 
 !.html
 !.css
 !*.js
 !*.jsx
+# 
 !*.c
 !*.cpp
 !*.gitignore
