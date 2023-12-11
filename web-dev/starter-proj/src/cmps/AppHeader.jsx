@@ -1,10 +1,10 @@
-import imgUrl from '/gmaillogo.png'
+import { utilService } from '../services/util.service'
 
 export function AppHeader() {
     
     return (
         <header className="app-header">
-            <img src={imgUrl} alt='gmail logo'></img>
+            <img src={utilService.getImgUrl('../assets/imgs/gmaillogo.png')} alt='gmail logo'></img>
             <h1>Gmail</h1>
         </header>
     )

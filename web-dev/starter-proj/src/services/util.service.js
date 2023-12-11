@@ -2,7 +2,8 @@
 export const utilService = {
     makeId,
     saveToStorage,
-    loadFromStorage
+    loadFromStorage,
+    getImgUrl
 }
 
 function makeId(length = 5) {
@@ -21,4 +22,8 @@ function saveToStorage(key, value) {
 function loadFromStorage(key, defaultValue = null) {
     var value = localStorage[key] || defaultValue;
     return JSON.parse(value);
+}
+
+function getImgUrl(url) {
+    return new URL(url, import.meta.url).href
 }
