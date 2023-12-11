@@ -1,6 +1,5 @@
 import { EmailPreview } from "./EmailPreview";
-import 
-import imgUrlremove from '/remove.png'
+import { EmailFilter } from "./EmailFilter"
 
 export function EmailList({ emails, onRemoveEmail }) {
     return (
