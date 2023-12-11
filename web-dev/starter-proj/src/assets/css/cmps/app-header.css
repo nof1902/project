@@ -1,18 +1,19 @@
 .app-header {
-    background: rgb(204, 235, 238);
-    color: white;
-
-}
-
-.app-header section.container {
     display: flex;
     align-items: center;
-
+    background: #d3d2d2;
+    color: rgb(0, 0, 0);
+    padding: 25px 10px;
 }
 
-.app-header h1.logo {
-    flex-grow: 1;
+h1{
     font-weight: 600;
+    margin-left: 5px;
+}
+
+img{
+    max-width: 30px;
+    margin-left: 5px; 
 }
 
 .app-header .back {
@@ -26,3 +27,4 @@
 .app-header section.container>section {
     flex-grow: 1;
 }
+
