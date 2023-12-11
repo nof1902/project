@@ -11,8 +11,15 @@ export const emailService = {
 
 const STORAGE_KEY = 'emails'
 
-// localStorage.clear();
-_createEmails()
+const filterBy = {
+    status: 'inbox/sent/star/trash',
+    txt: 'puki', // no need to support complex text search
+    isRead: true/false/null, // (optional property, if missing: show all)
+   }
+
+
+//    localStorage.clear();
+ _createEmails()
 
 async function query(filterBy) {
     const emails = await storageService.query(STORAGE_KEY)
@@ -59,15 +66,15 @@ function _createEmails() {
         emails = [
             {
                 id: 'e1', subject: 'Miss you!', body: 'Would love to catch up sometimes', isRead: false, isStarred: false,
-                sentAt : 1551133930594, removedAt : null, from: 'momo@momo.com', to: 'user@appsus.com'
+                sentAt : 'Jun 25', removedAt : null, from: 'momo@momo.com', to: 'user@appsus.com'
             },
             {
                 id: 'e2', subject: 'Miss you!', body: 'Would love to catch up sometimes', isRead: false, isStarred: false,
-                sentAt : 1551133930594, removedAt : null, from: 'momo@momo.com', to: 'user@appsus.com'
+                sentAt : 'Apr 03', removedAt : null, from: 'momo@momo.com', to: 'user@appsus.com'
             },
             {
                 id: 'e3', subject: 'Miss you!', body: 'Would love to catch up sometimes', isRead: false, isStarred: false,
-                sentAt : 1551133930594, removedAt : null, from: 'momo@momo.com', to: 'user@appsus.com'
+                sentAt : 'Jun 13', removedAt : null, from: 'momo@momo.com', to: 'user@appsus.com'
             }
         ]
         utilService.saveToStorage(STORAGE_KEY, emails)

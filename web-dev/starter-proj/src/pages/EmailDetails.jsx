@@ -16,20 +16,18 @@ export function EmailDetails(){
     async function loadEmail() {
         try {
             const email = await emailService.getById(params.id)
+            setAsRead(email)
             setEmail(email)
         } catch (error) {
             console.log('error:', error)
         }
     }
 
-    // async function onRemoveEmail(emailId) {
-    //     try {
-    //         await emailService.remove(emailId)
-    //         })
-    //     } catch (error) {
-    //         console.log('error:', error)
-    //     }
-    // }
+    async function setAsRead(email){
+        email.isRead = true;
+        const new_email = await emailService.save(email)
+        console.log(new_email)
+    }
 
     function onBack() {
         navigate('/emails')

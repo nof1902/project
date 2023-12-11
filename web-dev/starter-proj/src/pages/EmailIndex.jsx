@@ -1,7 +1,8 @@
-
+import "../cmps/init"
 import { useEffect, useState } from "react"
 import { EmailList } from "../cmps/EmailList";
 import { emailService } from '../services/email.service'
+// import { EmailFilter } from "./EmailFilter"
 
 export function EmailIndex() {
     
@@ -32,6 +33,7 @@ export function EmailIndex() {
 
     return (
         <section className=".email-details .container">
+            {/* <EmailFilter /> */}
             <EmailList emails={emails} onRemoveEmail={onRemoveEmail} />
         </section>
     )
