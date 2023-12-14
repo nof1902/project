@@ -1,9 +1,7 @@
 
-export function EmailDetails(){
+export function EmailCompose(){
 
-
-
-    return{
-        
-    }
+    return(
+        <h1>hey</h1>
+    )
 }
