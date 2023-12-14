@@ -1,20 +1,19 @@
-import "../cmps/init"
 import { useEffect, useState } from "react"
-import { EmailList } from "../cmps/EmailList";
+import { EmailList } from "../cmps/EmailList"
 import { emailService } from '../services/email.service'
-// import { EmailFilter } from "./EmailFilter"
+import { EmailFilter } from "./EmailFilter"
 
 export function EmailIndex() {
     
     const [emails, setEmails] = useState(null)
-    // const [filterBy, setFilterBy] = useState(emailService.getDefaultFilter())
+    const [filterBy, setFilterBy] = useState(emailService.getDefaultFilter())
 
     useEffect(() => {
-        loadEmail()
-    },[])
+        loadEmail(filterBy)
+    },[filterBy])
 
-    async function loadEmail() {
-        const emails = await emailService.query()
+    async function loadEmail(filterBy) {
+        const emails = await emailService.query(filterBy)
         setEmails(emails)
     }
 
@@ -29,11 +28,17 @@ export function EmailIndex() {
         }
     }
 
+    function onSetFilter(filterBy) {
+        setFilterBy(prevFilter => ({ ...prevFilter, ...filterBy }))
+    }
+
+    const {textSearch, isRead} = filterBy
     if (!emails) return <div>Loading...</div>
+    
 
     return (
         <section className=".email-details .container">
-            {/* <EmailFilter /> */}
+            <EmailFilter filterBy={{ textSearch, isRead }} onSetFilter={onSetFilter}/>
             <EmailList emails={emails} onRemoveEmail={onRemoveEmail} />
         </section>
     )

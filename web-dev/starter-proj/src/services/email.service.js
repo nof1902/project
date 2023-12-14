@@ -7,27 +7,28 @@ export const emailService = {
     remove,
     getById,
     createEmail,
+    getDefaultFilter,
+    getLoggedInUser
 }
 
 const STORAGE_KEY = 'emails'
 
-const filterBy = {
-    status: 'inbox/sent/star/trash',
-    txt: 'puki', // no need to support complex text search
-    isRead: true/false/null, // (optional property, if missing: show all)
-   }
-
-
-//    localStorage.clear();
+// localStorage.clear();
  _createEmails()
 
-async function query(filterBy) {
-    const emails = await storageService.query(STORAGE_KEY)
-    if (filterBy) {
 
+async function query(filterBy) {
+    let emails = await storageService.query(STORAGE_KEY);
+    if (filterBy) {
+        const { textSearch = '', isRead} = filterBy;
+        emails = emails.filter(email => 
+            ((textSearch === '' || email.subject.includes(textSearch) || email.body.includes(textSearch))
+            && (isRead === null || email.isRead === isRead))
+        );
     }
-    return emails
+    return emails;
 }
+
 
 function getById(id) {
     return storageService.get(STORAGE_KEY, id)
@@ -60,6 +61,22 @@ function createEmail() {
         }
 }
 
+function getDefaultFilter() {
+    return {
+        status: '',
+        textSearch: '',
+        isRead: null
+    }
+}
+
+function getLoggedInUser()
+{
+    return {
+        email: 'nofar@melamed.com',
+        fullname: 'Nofar Melamed'
+   }
+}
+
 function _createEmails() {
     let emails = utilService.loadFromStorage(STORAGE_KEY)
     if (!emails || !emails.length) {
@@ -73,8 +90,12 @@ function _createEmails() {
                 sentAt : 'Apr 03', removedAt : null, from: 'momo@momo.com', to: 'user@appsus.com'
             },
             {
-                id: 'e3', subject: 'Miss you!', body: 'Would love to catch up sometimes', isRead: false, isStarred: false,
-                sentAt : 'Jun 13', removedAt : null, from: 'momo@momo.com', to: 'user@appsus.com'
+                id: 'e3', subject: 'new discounts', body: 'new discounts', isRead: false, isStarred: false,
+                sentAt : 'Jun 13', removedAt : null, from: 'eBay', to: 'user@appsus.com'
+            },
+            {
+                id: 'e4', subject: 'Security alert', body: 'Your Google Account was just in to form', isRead: false, isStarred: false,
+                sentAt : 'Jun 1', removedAt : null, from: 'Google', to: 'user@appsus.com'
             }
         ]
         utilService.saveToStorage(STORAGE_KEY, emails)

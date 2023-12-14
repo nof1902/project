@@ -79,8 +79,6 @@
     transition: 0.3s all;
     padding: 0;
     cursor: pointer;
-
-
 }
 
 .simple-button:disabled {
@@ -88,12 +86,9 @@
     opacity: 0.2;
 }
 
-
-
 .simple-button:hover:not(:disabled) {
     opacity: 1;
 }
-
 
 .medium-button {
     font-size: 1.5rem;
@@ -165,8 +160,6 @@
     &>*:not(:last-child) {
         margin-bottom: 10px;
     }
-
-
 }
 
 .simple-form :is(input:not([type="checkbox"]), button) {
